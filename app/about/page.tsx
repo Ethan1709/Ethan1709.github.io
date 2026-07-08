@@ -58,7 +58,7 @@ export default function AboutPage() {
                   ["🎓", "École 2600 — Expert Sécurité (Bac+5)"],
                   ["🏆", "Root-Me — +10 000 pts cumulés"],
                   ["🎯", "En recherche d'alternance (1 an)"],
-                  ["💬", "Français & Anglais (courant)"],
+                  ["💬", "Français (natif) · Anglais (excellent)"],
                 ].map(([icon, text]) => (
                   <li key={text} className="flex items-center gap-3 text-[var(--text-2)]">
                     <span>{icon}</span>
