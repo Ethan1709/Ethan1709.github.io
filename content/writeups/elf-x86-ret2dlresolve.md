@@ -44,12 +44,7 @@ On envoie d'abord la ROP chain (offset de 28 octets jusqu'à l'adresse de retour
 
 Et si on exécute le payload nous obtenons un shell distant :
 
-```
-$ id
-uid=1277(app-systeme-ch77-cracked) gid=1277(...) groups=1277(...)
-$ cat /challenge/app-systeme/ch77/.passwd
-RootMe{No_n33d_to_l34k_to_get_a_sh3LL}
-```
+<img src="/writeups-img/ret2dl-01-shell.png" alt="Exécution du script pwntools — shell distant, uid app-systeme-ch77-cracked, lecture du .passwd" />
 
 ## Flag
 
