@@ -59,7 +59,7 @@ const EXPERIENCE = [
       "Audit de configuration GCP",
       "Création d'un modèle de rapport de pentest from scratch",
     ],
-    current: true,
+    current: false,
   },
   {
     period: "2024 — 2027",
