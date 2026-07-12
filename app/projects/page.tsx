@@ -10,14 +10,6 @@ const PROJECTS = [
     lang: "Bash / gcloud",
   },
   {
-    name: "Solar Renov — prospection automatisée",
-    desc: "Plateforme de prospection téléphonique automatisée développée pour un client (rénovation / panneaux solaires) dans le cadre de mon auto-entreprise. Backend FastAPI + files d'attente Redis (workers, retry, blacklist) orchestrant des appels via l'API Twilio, persistance PostgreSQL (leads, historique et résultats d'appels), import/export CSV et tableau de bord SvelteKit avec statistiques.",
-    tags: ["FastAPI", "Twilio", "Redis", "PostgreSQL", "SvelteKit"],
-    status: "Livré au client",
-    statusTone: "accent",
-    lang: "Python / TypeScript",
-  },
-  {
     name: "Modèle de rapport de pentest",
     desc: "Template professionnel de rapport de test d'intrusion, conçu from scratch pendant mon alternance chez Cyber Sec Asso : structure des findings, scoring CVSS, synthèse managériale et recommandations de remédiation.",
     tags: ["Pentest", "Méthodologie", "CVSS"],
