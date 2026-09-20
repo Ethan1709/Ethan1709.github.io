@@ -139,6 +139,11 @@ export default function AboutPage() {
                     Certification offensive Red Team : reconnaissance, exploitation initiale,
                     mouvement latéral et post-exploitation en environnement Active Directory.
                   </p>
+                  <p className="font-code mt-3 text-xs text-[var(--muted)]">
+                    CyberWarfare Labs · délivrée le 19/07/2026
+                    <br />
+                    CRTA-6a5ce5128aed14e94c89aa63
+                  </p>
                 </div>
               </div>
             </div>
