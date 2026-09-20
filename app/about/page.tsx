@@ -17,6 +17,10 @@ const SKILLS = [
     cat: "Réseau & Hardening",
     items: ["iptables / nftables", "Segmentation réseau", "SELinux", "AppArmor", "Nmap", "Wireshark"],
   },
+  {
+    cat: "Reporting & Communication",
+    items: ["Rapports ANSSI", "Scoring CVSS", "Synthèse managériale", "Recommandations de remédiation", "Restitution client"],
+  },
 ];
 
 const TOOLS = ["Python", "Assembleur x86-64", "C", "SQL", "JavaScript", "GDB", "Ghidra", "IDA", "Pwntools", "Burp Suite", "Sqlmap", "Hydra", "Metasploit", "Nmap", "Wireshark", "Docker"];
@@ -26,6 +30,7 @@ const CONTACT = [
   { label: "LinkedIn", value: "Ethan Benyayer", href: "https://www.linkedin.com/in/ethan-benyayer" },
   { label: "GitHub", value: "Ethan1709", href: "https://github.com/Ethan1709" },
   { label: "Root-Me", value: "Ethanbeny", href: "https://www.root-me.org/Ethanbeny" },
+  { label: "Hack The Box", value: "Voir le profil", href: "https://app.hackthebox.com/profile/1946254" },
 ];
 
 export default function AboutPage() {
@@ -56,9 +61,10 @@ export default function AboutPage() {
                 {[
                   ["📍", "Île-de-France"],
                   ["🎓", "École 2600 — Expert Sécurité (Bac+5)"],
+                  ["🏅", "CRTA — Certified Red Team Analyst"],
                   ["🏆", "Root-Me — +10 000 pts cumulés"],
                   ["🎯", "En recherche d'alternance (1 an)"],
-                  ["💬", "Français (natif) · Anglais (excellent)"],
+                  ["💬", "Français (natif) · Anglais B2 · Hébreu A2"],
                 ].map(([icon, text]) => (
                   <li key={text} className="flex items-center gap-3 text-[var(--text-2)]">
                     <span>{icon}</span>
@@ -114,6 +120,26 @@ export default function AboutPage() {
                   Curieux et rigoureux, je me challenge régulièrement sur des plateformes comme
                   Root-Me et Hack The Box pour entretenir et élargir mes compétences techniques.
                 </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={40}>
+            <div className="card p-7">
+              <p className="section-label !text-[0.7rem]">Certification</p>
+              <div className="mt-4 flex items-start gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(52,211,153,0.25)] bg-[var(--accent-dim)] text-lg">
+                  🏅
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-[var(--text)]">
+                    CRTA — Certified Red Team Analyst
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-2)]">
+                    Certification offensive Red Team : reconnaissance, exploitation initiale,
+                    mouvement latéral et post-exploitation en environnement Active Directory.
+                  </p>
+                </div>
               </div>
             </div>
           </Reveal>

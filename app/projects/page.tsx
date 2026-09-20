@@ -8,6 +8,7 @@ const PROJECTS = [
     status: "Utilisé en mission",
     statusTone: "accent",
     lang: "Bash / gcloud",
+    link: "https://github.com/Ethan1709/gcp-auditv2",
   },
   {
     name: "Modèle de rapport de pentest",

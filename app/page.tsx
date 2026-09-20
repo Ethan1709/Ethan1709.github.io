@@ -55,9 +55,10 @@ const EXPERIENCE = [
     role: "Pentester (alternance)",
     org: "Cyber Sec Asso",
     points: [
-      "Tests d'intrusion internes et applicatifs web",
+      "Tests d'intrusion internes, applicatifs web et Active Directory",
       "Audit de configuration GCP",
       "Création d'un modèle de rapport de pentest from scratch",
+      "Rédaction et restitution de rapports, vulgarisation auprès des clients",
     ],
     current: false,
   },
@@ -110,10 +111,15 @@ export default function Home() {
       <section className="grid grid-cols-1 items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <Reveal>
-            <span className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(52,211,153,0.3)] bg-[var(--accent-dim)] px-4 py-1.5 text-xs font-medium text-[var(--accent-strong)]">
-              <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--accent)]" />
-              Disponible — à la recherche d&apos;une alternance (1 an)
-            </span>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(52,211,153,0.3)] bg-[var(--accent-dim)] px-4 py-1.5 text-xs font-medium text-[var(--accent-strong)]">
+                <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--accent)]" />
+                Disponible — à la recherche d&apos;une alternance (1 an)
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/[0.03] px-4 py-1.5 text-xs font-medium text-[var(--text-2)]">
+                🏅 Certifié CRTA
+              </span>
+            </div>
           </Reveal>
 
           <Reveal delay={80}>
@@ -153,7 +159,7 @@ export default function Home() {
                 { label: "GitHub", href: "https://github.com/Ethan1709" },
                 { label: "LinkedIn", href: "https://www.linkedin.com/in/ethan-benyayer" },
                 { label: "Root-Me", href: "https://www.root-me.org/Ethanbeny" },
-                { label: "Hack The Box", href: "https://app.hackthebox.com" },
+                { label: "Hack The Box", href: "https://app.hackthebox.com/profile/1946254" },
               ].map(({ label, href }) => (
                 <a
                   key={label}
