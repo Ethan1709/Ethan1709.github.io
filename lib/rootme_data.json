@@ -1,14 +1,14 @@
 {
   "username": "Ethanbeny",
-  "rank": 311,
-  "score": 10320,
-  "total_solved": 374,
+  "rank": 312,
+  "score": 10540,
+  "total_solved": 379,
   "categories": [
     {
       "name": "App - Script",
-      "percent": 73,
-      "points": 545,
-      "solved": 24,
+      "percent": 76,
+      "points": 580,
+      "solved": 25,
       "total": 33,
       "solved_challenges": [
         "Bash - System 1",
@@ -30,6 +30,7 @@
         "Docker - Sys-Admin's Docker",
         "Shared Objects hijacking",
         "SSH - Agent Hijacking",
+        "AppArmor - Jail Medium",
         "Docker - Talk through me",
         "Python - format string",
         "Python - PyJail 1",
@@ -38,7 +39,6 @@
       ],
       "unsolved_challenges": [
         "Powershell - Basic jail",
-        "AppArmor - Jail Medium",
         "Bash - race condition",
         "PHP - Jail",
         "Python - Jail - Exec",
@@ -420,9 +420,9 @@
     },
     {
       "name": "Réaliste",
-      "percent": 29,
-      "points": 550,
-      "solved": 18,
+      "percent": 35,
+      "points": 735,
+      "solved": 22,
       "total": 62,
       "solved_challenges": [
         "Eh oui, parfois",
@@ -439,22 +439,22 @@
         "Breaking Root-Me like it’s 2020",
         "PyRat Enchères",
         "Root them",
+        "IPBX - call me maybe",
         "Root-We",
+        "Starbug Bounty",
         "Ultra Upload",
+        "Well-known",
         "Django unchained",
-        "Imagick"
+        "Imagick",
+        "MALab"
       ],
       "unsolved_challenges": [
         "ComCyber - Challenge",
         "Mersenne with 2",
         "Bash/Awk - parsing netstat",
-        "IPBX - call me maybe",
         "Marabout",
-        "Starbug Bounty",
-        "Well-known",
         "A bittersweet shellfony",
         "Bash - System Disaster",
-        "MALab",
         "SSHocker",
         "Web TV",
         "DasBox1 : du Rififi chez les hommes-lézards",
