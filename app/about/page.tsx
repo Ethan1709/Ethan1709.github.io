@@ -144,6 +144,14 @@ export default function AboutPage() {
                     <br />
                     CRTA-6a5ce5128aed14e94c89aa63
                   </p>
+                  <a
+                    href="/crta-ethan-benyayer.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-code mt-4 inline-block text-xs text-[var(--text-2)] transition-colors hover:text-[var(--accent)]"
+                  >
+                    Voir le certificat →
+                  </a>
                 </div>
               </div>
             </div>

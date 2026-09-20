@@ -116,9 +116,14 @@ export default function Home() {
                 <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--accent)]" />
                 Disponible — à la recherche d&apos;une alternance (1 an)
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/[0.03] px-4 py-1.5 text-xs font-medium text-[var(--text-2)]">
+              <a
+                href="/crta-ethan-benyayer.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/[0.03] px-4 py-1.5 text-xs font-medium text-[var(--text-2)] transition-colors hover:border-[rgba(52,211,153,0.3)] hover:text-[var(--accent)]"
+              >
                 🏅 Certifié CRTA
-              </span>
+              </a>
             </div>
           </Reveal>
 
